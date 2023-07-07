@@ -1,0 +1,13 @@
+Package: quickreadR
+Title: Summarize the content in a PDF quickly with the power of ChatGPT
+Version: 0.2
+Authors@R: 
+    person("Damian", "Oswald", , "damian.oswald@protonmail.com", role = c("aut","cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Maintainer: Damian Oswald <damian.oswald@protonmail.com>
+Description: This package allows reading the content of PDFs into R, cleaning it, and integrating it into a ChatGPT-based workflow. Examples of this include producing summaries or screening the PDFs for specific information. The package also allows users to do batch processing if an entire directory full of PDFs is at hand.
+License:  MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports: reticulate, openai, pdftools
