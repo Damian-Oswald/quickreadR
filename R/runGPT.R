@@ -6,9 +6,12 @@
 #' 
 #' @export
 runGPT <- function(prompt, model = "gpt-3.5-turbo-16k", openai_api_key = Sys.getenv("OPENAI_API_KEY")){
-   openai::create_chat_completion(
-      openai_api_key = openai_api_key,
-      model = model,
-      messages = list(list(role = "user", content = prompt))
-   )$choices$message.content
+   tryCatch({
+      openai::create_chat_completion(
+         openai_api_key = openai_api_key,
+         model = model,
+         messages = list(list(role = "user", content = prompt))
+      )$choices$message.content
+   },
+   error = function(e) return(NULL))
 }

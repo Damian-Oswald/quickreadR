@@ -8,7 +8,11 @@
 #' @export
 pdf2text <- function(path, remove = c("references","brackets")){
    
-   text <- stringr::str_squish(paste0(paste0(pdftools::pdf_text(path), collapse = " "), collapse = " "))
+   # Try to read in text
+   text <- tryCatch(pdftools::pdf_text(path), error = function(e) return(NULL))
+
+   # Remove skips
+   text <- stringr::str_squish(paste0(paste0(text, collapse = " "), collapse = " "))
    
    # replace repetitions of whitespaces with one single whitespace
    text <- gsub("\\s+", " ", text)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/quickread.R
 \name{quickread}
 \alias{quickread}
-\title{Send a prompt to ChatGPT}
+\title{Have a GPT-series model interact with a PDF}
 \usage{
 quickread(
   path = NULL,
@@ -17,9 +17,9 @@ quickread(
 )
 }
 \arguments{
-\item{path}{The search path for the PDF}
+\item{path}{The search path for the PDF. This can be either an URL to a PDF, a path to a single PDF, or a directory containing multiple PDFs.}
 
-\item{instruction}{The instruction for ChatGPT}
+\item{instruction}{The instruction for ChatGPT. It is added at the end of the extracted PDF text.}
 
 \item{enable_shorten}{If the text extracted from the PDF exceeds \code{max_tokens}, should the text be split up in chunks, individually summarized and be put together again? Defaults to \code{TRUE}. Note that this allows heavy (charged) usage of ChatGPT, and in the case of \code{model = "gpt-4"}, it might lead to an error due to OpenAI's usage limit for its models.}
 
@@ -34,11 +34,10 @@ quickread(
 \item{openai_api_key}{The API key for the OpenAI API. By default, the key will be searched for as \code{OPENAI_API_KEY} in the system environments. In order to set up an OpenAI API key, you need to sign up for the \href{https://openai.com/product}{OpenAI API}, and generate your personal secret API key on \href{https://platform.openai.com/}{this site} (Personal, and select View API keys in drop-down menu). You can then copy the key by clicking on the green text Copy.}
 
 \item{max_tokens}{The maximal number of tokens the text sent to ChatGPT may consist of. If the number of tokens exceeds \code{max_token}, the text is split up and iteratively processed.}
-
-\item{description}{TODO}
-
-\item{details}{TODO}
 }
 \description{
-Send a prompt to ChatGPT
+This is the main function of the \code{quickreadR} package. There are two primary arguments, first the path to a PDF (or a directory containing PDFs), second an instruction for ChatGPT. For every PDF in the search path, \code{quickread} will extract the text, combine it with the instruction and send it to ChatGPT.
+}
+\details{
+If the text extracted from the PDF is too large to be sent to ChatGPT, then it is split up into chunks, individually summarized, and the instruction is performed on this "intermittent summary", not on the original text.
 }

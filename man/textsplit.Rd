@@ -4,7 +4,7 @@
 \alias{textsplit}
 \title{Split the text at given sentences}
 \usage{
-textsplit(text, max_tokens = 12000)
+textsplit(text, max_tokens = 14000)
 }
 \arguments{
 \item{text}{An input text (character vector with one element).}

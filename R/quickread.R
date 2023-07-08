@@ -1,10 +1,10 @@
-#' Send a prompt to ChatGPT
+#' Have a GPT-series model interact with a PDF
 #' 
-#' @param description TODO
-#' @param details TODO
+#' @description This is the main function of the `quickreadR` package. There are two primary arguments, first the path to a PDF (or a directory containing PDFs), second an instruction for ChatGPT. For every PDF in the search path, `quickread` will extract the text, combine it with the instruction and send it to ChatGPT.
+#' @details If the text extracted from the PDF is too large to be sent to ChatGPT, then it is split up into chunks, individually summarized, and the instruction is performed on this "intermittent summary", not on the original text.
 #' 
-#' @param path The search path for the PDF
-#' @param instruction The instruction for ChatGPT
+#' @param path The search path for the PDF. This can be either an URL to a PDF, a path to a single PDF, or a directory containing multiple PDFs.
+#' @param instruction The instruction for ChatGPT. It is added at the end of the extracted PDF text.
 #' @param enable_shorten If the text extracted from the PDF exceeds `max_tokens`, should the text be split up in chunks, individually summarized and be put together again? Defaults to `TRUE`. Note that this allows heavy (charged) usage of ChatGPT, and in the case of `model = "gpt-4"`, it might lead to an error due to OpenAI's usage limit for its models.
 #' @param language Language for both the hidden ChatGPT prompts as well as the document output. Currently supports `"English"` and `"German"`. Note that the GPT models have been trained on data from the internet, which includes text in hundreds of languages, but is very biased towards English. Thus, the model's responses and "reasoning skills" might be the best in English, even though it reads a PDF in another language.
 #' @param remove A character vector specifying what to remove from the text. Currently supports `"references"` for removing the list of references from an article, `"brackets"` for removing all content within brackets, and `"parentheses"` for removing all content within parentheses.
@@ -22,6 +22,9 @@ quickread <- function(path = NULL, instruction = NULL, enable_shorten = TRUE, la
    # Function to read ONE single document
    read_one <- function(x, instruction = instruction, enable_shorten = enable_shorten, language = language, remove = remove, verbose = verbose, model = model, openai_api_key = openai_api_key, max_tokens = max_tokens) {
       
+      # Start a new meassage
+      if(verbose) cat("\nReading \"",basename(x),"\"...", sep = "")
+      
       # Extract text from the PDF
       text <- quickreadR::pdf2text(path = x, remove = remove)
       
@@ -30,7 +33,7 @@ quickread <- function(path = NULL, instruction = NULL, enable_shorten = TRUE, la
       
       # Optionally: Make a summary of the text if it exceeds the maximum number of tokens digestible by `gpt-3.5`
       if(n>max_tokens & enable_shorten){
-         summary <- quickreadR::shorten(text, language = language, max_tokens = max_tokens, model = model, openai_api_key = openai_api_key)
+         summary <- quickreadR::shorten(text, path = x, language = language, verbose = verbose, max_tokens = max_tokens, model = model, openai_api_key = openai_api_key)
          prompt <- paste0(summary$summary, "\n\n", instruction)
       } else if(n>max_tokens & !enable_shorten) {
          warning("The PDF in question is too long to read in one go. Please enable intermittent shortening of the PDF (`enable_shortening = TRUE`) if you wish to summarize this PDF anyways.")
@@ -56,6 +59,8 @@ quickread <- function(path = NULL, instruction = NULL, enable_shorten = TRUE, la
                      max_tokens = max_tokens,
                      language = language)
       class(result) <- "quickread"
+      
+      if(verbose) cat(" Done!")
       
       return(result)
    }

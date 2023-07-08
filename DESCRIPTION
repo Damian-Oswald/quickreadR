@@ -1,6 +1,6 @@
 Package: quickreadR
 Title: Summarize the content in a PDF quickly with the power of ChatGPT
-Version: 0.2
+Version: 1.0
 Authors@R: 
     person("Damian", "Oswald", , "damian.oswald@protonmail.com", role = c("aut","cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))

@@ -6,7 +6,9 @@
 \usage{
 shorten(
   text,
+  path = NULL,
   language = "English",
+  verbose = TRUE,
   max_tokens = 14000,
   model = "gpt-3.5-turbo-16k",
   openai_api_key = Sys.getenv("OPENAI_API_KEY")

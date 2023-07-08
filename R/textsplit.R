@@ -7,7 +7,7 @@
 #' @param max_tokens The maximal number of tokens one sub-part of the text ought to consist of.
 #' 
 #' @export
-textsplit <- function(text, max_tokens = 12000){
+textsplit <- function(text, max_tokens = 14000){
    
    # Check if the text is *splittable*
    if(quickreadR::ntokens(text)<=max_tokens) {
