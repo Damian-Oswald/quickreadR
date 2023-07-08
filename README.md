@@ -1,13 +1,11 @@
----
-title: quickreadR
-author: Damian Oswald
----
+# quickreadR
+
 
 An R package that facilitates making summaries or extracting other useful information from PDFs, based on ChatGPT.
 
 This package requires other software to fully work, namely `Python 3`, `Quarto` and `LaTeX`. In addition, you'll need a subscription to the OpenAI API.
 
-# Setting up an OpenAI API key
+## Setting up an OpenAI API key
 
 Before you can use `quickreadR`, you'll have to set up an OpenAI account. The company is charging for the usage of their models, however, for sporadic usage, it's not very pricey. Using `gpt-3.5-turbo` (a faster version of ChatGPT) currently costs 0.002 USD for 1000 generated tokens[^token], whereas images created by DALL-E 2 go for two cents each.
 
@@ -28,7 +26,7 @@ Sys.setenv(OPENAI_API_KEY = "<SECRET KEY>")
 
 Make sure to replace `<SECRET KEY>` with your actual secret API key. Once this is done, you will be able to use OpenAI's models directly from within R, and you won't have to pass the API key to any functions from the `opanai` package.
 
-# Installation
+## Installation
 
 You can install the `quickreadR` package directly from GitHub using `devtools`.
 
@@ -37,7 +35,7 @@ devtools::install_github("Damian-Oswald/quickreadR")
 library(quickreadR)
 ```
 
-# Example
+## Example
 
 The main function in the `quickreadR` package is `quickread`. You'll have to provide three arguments at least: a path to a PDF, a instruction on what to do with it, and a personal OpenAI API key.
 The path may also be for a directory containing many PDFs; in that case, the instruction is followed iteratively for every PDF individually.
